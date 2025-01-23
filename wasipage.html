@@ -12,9 +12,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: black; /* Black bars on top and bottom */
-      color: black; /* Black text color */
-      font-weight: bold; /* Bold font */
+      background: black;
+      overflow: hidden;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* Background video styling */
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1; /* Place the video behind content */
     }
 
     .content-wrapper {
@@ -23,88 +35,73 @@
       z-index: 1;
     }
 
-    .background-image {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: auto;
-      transform: translate(-50%, -50%);
-      z-index: -1;
-      max-height: 100%;
-      max-width: 100%;
-    }
-
     .btn {
-      --color: black; /* Text color inside button */
-      --color2: white; /* Hover text color */
-      width: 200px;
+      --color: white;
+      --color2: #0E0E0E;
+      width: 260px;
       padding: 0.8em 1.75em;
-      background-color: orange;
-      border-radius: 6px;
-      border: .3px solid var(--color);
-      transition: .5s;
+      background-color: transparent;
+      border-radius: 50px;
+      border: 3px solid transparent;
       position: relative;
       overflow: hidden;
       cursor: pointer;
       z-index: 1;
-      font-weight: bold; /* Bold text inside button */
+      font-weight: 300;
       font-size: 17px;
       font-family: 'Roboto', 'Segoe UI', sans-serif;
       text-transform: uppercase;
       color: var(--color);
       margin-bottom: 24px;
-    }
-
-    .btn::after, .btn::before {
-      content: '';
-      display: block;
-      height: 100%;
-      width: 100%;
-      transform: skew(90deg) translate(-50%, -50%);
-      position: absolute;
-      inset: 50%;
-      left: 25%;
-      z-index: -1;
-      transition: .5s ease-out;
-      background-color: var(--color);
+      transition: 0.5s;
     }
 
     .btn::before {
-      top: -50%;
-      left: -25%;
-      transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
-    }
-
-    .btn:hover::before {
-      transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
-    }
-
-    .btn:hover::after {
-      transform: skew(45deg) translate(-50%, -50%);
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
+      background-size: 400%;
+      z-index: -1;
+      border-radius: 50px;
+      animation: neon-border 4s linear infinite;
     }
 
     .btn:hover {
-      color: var(--color2);
+      color: black;
     }
 
     .btn:active {
-      filter: brightness(.7);
-      transform: scale(.98);
+      filter: brightness(0.7);
+      transform: scale(0.98);
+    }
+
+    @keyframes neon-border {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Background video -->
+  <video autoplay loop muted>
+    <source src="https://files.catbox.moe/w4g62m.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
   <div class="content-wrapper">
-    <img src="https://i.ibb.co/TB02j4G/1680859985-1290-x-2796.jpg" alt="Background Image" class="background-image">
     <div>
       <button onclick="window.open(`/wasiqr`)" class="btn">QR Code</button>
       <button onclick="window.open(`/pair`)" class="btn">Pair Code</button>
-      <button onclick="window.open(`https://github.com/ENZOTECH2/ENZO-MD`)" class="btn">Bot Repo</button>
-      <button onclick="window.open(`https://wa.me/254784115308?text=`)" class="btn">Contact Me</button>
-      <button onclick="window.open(`https://whatsapp.com/channel/0029VajJTJp2f3ELCm8FN50D`)" class="btn">Wa Channel</button>
-      <button onclick="window.open(`https://Instagram.com/@_BERA_TECH?si=3cp6Y2r__cXZg-Wi`)" class="btn">INSTAGRAM</button>
+      <button onclick="window.open(`https://github.com/NjabuloJ/Njabulo-Jb`)" class="btn">Bot Repo</button>
+      <button onclick="window.open(`https://wa.me/+263784970850`)" class="btn">Contact Me</button>
+      <button onclick="window.open(`https://whatsapp.com/channel/0029VarYP5iAInPtfQ8fRb2T`)" class="btn">Wa Channel</button>
+      <button onclick="window.open(`https://Instagram.com/@_Black_hammar1`)" class="btn">INSTAGRAM</button>
     </div>
   </div>
 
