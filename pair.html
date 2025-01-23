@@ -12,37 +12,20 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(135deg, #000000, #434343);
+      background: black;
       overflow: hidden;
       font-family: Arial, sans-serif;
     }
 
-    .matrix {
-      position: absolute;
+    /* Video Background */
+    #background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
-      z-index: -1;
-      color: rgba(0, 255, 0, 0.5);
-      font-size: 20px;
-      font-family: monospace;
-    }
-
-    .matrix div {
-      position: absolute;
-      width: 20px;
-      height: 100%;
-      top: 0;
-      animation: matrix-fall linear infinite;
-    }
-
-    @keyframes matrix-fall {
-      0% {
-        top: -100%;
-      }
-      100% {
-        top: 100%;
-      }
+      object-fit: cover;
+      z-index: -2;
     }
 
     .container {
@@ -60,28 +43,31 @@
       text-align: center;
       background-color: rgb(0, 0, 0);
       border-radius: 10px;
-      transform: perspective(1000px) rotateY(0deg);
       box-shadow: 0 0 20px rgba(250, 249, 249, 0.7);
+      animation: neon-border 2s infinite alternate;
+    }
+
+    @keyframes neon-border {
+      0% {
+        box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+      }
+      50% {
+        box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+      }
+      100% {
+        box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
+      }
     }
 
     #text {
       color: #f6f5f5;
     }
 
-    .input-container input {
-      color: #f1eaea;
-    }
-
-    .centered-text {
-      color: #e9e4e4;
-    }
-
     .input-container {
       display: flex;
-      background: rgb(10, 10, 10);
-      border-radius: 1rem;
       background: black;
-      box-shadow: black;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
       padding: 0.3rem;
       gap: 0.3rem;
       max-width: 300px;
@@ -127,70 +113,59 @@
     }
 
     @media (max-width: 500px) {
+      .box {
+        width: 90%;
+      }
+
       .input-container {
         flex-direction: column;
       }
 
       .input-container input {
         border-radius: 0.8rem;
-      }
-
-      .input-container button {
-        padding: 0.4rem;
-        border-radius: 0.8rem;
-      }
-    }
-
-    .centered-text {
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      .box {
-        width: 90%; 
-      }
-    }
-
-    @media (max-width: 500px) {
-      .input-container input {
-        border-radius: 0.8rem;
-        width: 80%; 
+        width: 80%;
       }
 
       .input-container button {
         padding: 1rem;
         border-radius: 0.9rem;
-        width: 100%; 
+        width: 100%;
       }
+    }
+
+    .centered-text {
+      text-align: center;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <div class="matrix"></div>
+  <video id="background-video" autoplay loop muted>
+    <source src="https://files.catbox.moe/s4n1ns.mp4" type="video/mp4">
+  </video>
+
   <div class="container">
-    <div class="main">
-      <div class="box" id="box">
-        <div id="text">
-          <i class="fa fa-user"></i>
-          <p>
-            <h3 class="centered-text">Njabulo Session Generator</h3>
-            <br>
-            <h6> 𝙲𝚘𝚍𝚎𝚍ed By Marisel.</h6>
-            <h6>Enter Your Number with Country Code.</h6>
-            <div class="input-container">
-              <input placeholder="261**xxx" type="number" id="number" placeholder="Enter your Phone Number with Country Code" name="">
-              <button id="submit">Submit</button>
-            </div>
-            
-            <a id="waiting-message" class="centered-text" style="display: none;">Please wait a while</a>
-            <br>
-            <br>
-            <main id="pair"></main>
-          </p>
-        </div>
+    <div class="box" id="box">
+      <div id="text">
+        <i class="fa fa-user"></i>
+        <p>
+          <h3 class="centered-text">Njabulo Session Generator</h3>
+          <br>
+          <h6>𝙲𝚘𝚍𝚎𝚍 By Marisel.</h6>
+          <h6>Enter Your Number with Country Code.</h6>
+          <div class="input-container">
+            <input placeholder="261**xxx" type="number" id="number" placeholder="Enter your Phone Number with Country Code" name="">
+            <button id="submit">Submit</button>
+          </div>
+
+          <a id="waiting-message" class="centered-text" style="display: none;">Please wait a while</a>
+          <br><br>
+          <main id="pair"></main>
+        </p>
       </div>
     </div>
   </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
     let a = document.getElementById("pair");
@@ -241,25 +216,6 @@
         a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
       }
     });
-
-    function createMatrix() {
-      const matrixContainer = document.querySelector('.matrix');
-      const columns = Math.floor(window.innerWidth / 20);
-      for (let i = 0; i < columns; i++) {
-        const column = document.createElement('div');
-        column.style.left = `${i * 20}px`;
-        column.style.animationDuration = `${Math.random() * 5 + 2}s`;
-        matrixContainer.appendChild(column);
-
-        for (let j = 0; j < 30; j++) {
-          const char = document.createElement('span');
-          char.innerText = String.fromCharCode(0x30A0 + Math.random() * 96);
-          column.appendChild(char);
-        }
-      }
-    }
-
-    createMatrix();
   </script>
 </body>
 </html>
